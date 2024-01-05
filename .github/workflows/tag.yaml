@@ -1,0 +1,32 @@
+name: Release Snaps
+
+on:
+  workflow_dispatch:
+    inputs:
+
+      tag:
+        required: true
+        type: string
+        description: |
+          The tag to build from.
+
+run-name: Tag test - from tag ${{ inputs.tag }} by @${{ github.actor }}
+
+jobs:
+  test-tag:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+      - run: git fetch --prune --unshallow
+      - name: Tag repo with desired tag
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: "refs/tags/my-tag-1",
+              sha: "${{ env.GIT_COMMIT_HASH }}"
+            })
