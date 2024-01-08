@@ -28,6 +28,6 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: "refs/tags/my-tag-1",
+              ref: "refs/tags/my-tag-2",
               sha: "${{ env.GIT_COMMIT_HASH }}"
             })
